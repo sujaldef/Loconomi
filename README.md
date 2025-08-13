@@ -13,6 +13,7 @@ Loconomi is a cutting-edge decentralized platform designed to connect you with l
 
 - 🚀 Express.js
 - ⚛️ React
+- -Redux
 
 
 ## 📦 Key Dependencies
