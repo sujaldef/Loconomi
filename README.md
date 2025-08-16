@@ -4,10 +4,6 @@
 
 Loconomi is a cutting-edge decentralized platform designed to connect you with local service providers in real-time. Leveraging the power of WebSockets, Loconomi offers a dynamic and responsive experience, allowing you to discover nearby services as they become available. The platform boasts a seamless and intuitive user interface built with React, ensuring a smooth and engaging experience on any device. With its robust backend powered by Express.js and a scalable MongoDB database, Loconomi provides a reliable and efficient solution for finding the local services you need, when you need them. Experience the future of local service discovery with Loconomi!
 
-## ✨ Features
-
-- 🕸️ Web
-
 
 ## 🛠️ Tech Stack
 
