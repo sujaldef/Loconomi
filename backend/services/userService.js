@@ -1,12 +1,6 @@
+// services/userService.js
 const User = require('../models/User');
 const Provider = require('../models/Provider');
-const redis = require('redis');
-const redisClient = redis.createClient({ url: 'redis://localhost:6379' });
-const mongoose = require('mongoose');
-
-(async () => {
-  await redisClient.connect();
-})();
 
 const createUser = async (data) => {
   try {
@@ -18,11 +12,7 @@ const createUser = async (data) => {
       data: savedUser,
     };
   } catch (error) {
-    return {
-      status: 'error',
-      message: error.message,
-      data: null,
-    };
+    return { status: 'error', message: error.message, data: null };
   }
 };
 
@@ -30,64 +20,36 @@ const getUserById = async (id) => {
   try {
     const user = await User.findById(id);
     if (!user) {
-      return {
-        status: 'error',
-        message: 'User not found',
-        data: null,
-      };
+      return { status: 'error', message: 'User not found', data: null };
     }
-    return {
-      status: 'success',
-      message: 'User retrieved successfully',
-      data: user,
-    };
+    return { status: 'success', message: 'User retrieved', data: user };
   } catch (error) {
-    return {
-      status: 'error',
-      message: error.message,
-      data: null,
-    };
+    return { status: 'error', message: error.message, data: null };
   }
 };
 
 const getAllUsers = async () => {
   try {
     const users = await User.find();
-    return {
-      status: 'success',
-      message: 'Users retrieved successfully',
-      data: users,
-    };
+    return { status: 'success', message: 'All users', data: users };
   } catch (error) {
-    return {
-      status: 'error',
-      message: error.message,
-      data: null,
-    };
+    return { status: 'error', message: error.message, data: null };
   }
 };
 
 const updateUser = async (id, data) => {
   try {
-    const user = await User.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+    const user = await User.findByIdAndUpdate(
+      id,
+      data,
+      { new: true, runValidators: true }
+    );
     if (!user) {
-      return {
-        status: 'error',
-        message: 'User not found',
-        data: null,
-      };
+      return { status: 'error', message: 'User not found', data: null };
     }
-    return {
-      status: 'success',
-      message: 'User updated successfully',
-      data: user,
-    };
+    return { status: 'success', message: 'User updated', data: user };
   } catch (error) {
-    return {
-      status: 'error',
-      message: error.message,
-      data: null,
-    };
+    return { status: 'error', message: error.message, data: null };
   }
 };
 
@@ -95,83 +57,59 @@ const deleteUser = async (id) => {
   try {
     const user = await User.findByIdAndDelete(id);
     if (!user) {
-      return {
-        status: 'error',
-        message: 'User not found',
-        data: null,
-      };
+      return { status: 'error', message: 'User not found', data: null };
     }
-    return {
-      status: 'success',
-      message: 'User deleted successfully',
-      data: user,
-    };
+    return { status: 'success', message: 'User deleted', data: user };
   } catch (error) {
-    return {
-      status: 'error',
-      message: error.message,
-      data: null,
-    };
+    return { status: 'error', message: error.message, data: null };
   }
 };
 
- const createRequest = async (userId, serviceType, userLocation) => {
+// User requests a service → find nearby available providers
+const createRequest = async (userId, serviceType, userLocation) => {
   try {
-    const results = await redisClient.geoSearch(
-      'providers',
-      {
-        longitude: userLocation.longitude,
-        latitude: userLocation.latitude,
+    const user = await User.findById(userId);
+    if (!user) {
+      return { status: 'error', message: 'User not found', data: null };
+    }
+
+    // Save user's current location
+    user.locations.push({
+      type: 'Point',
+      coordinates: [userLocation.longitude, userLocation.latitude],
+      timestamp: new Date(),
+    });
+    await user.save();
+
+    // Find nearby available providers
+    const nearbyProviders = await Provider.find({
+      role: serviceType,
+      availability: 'Available',
+      fixedLocation: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [userLocation.longitude, userLocation.latitude],
+          },
+          $maxDistance: 10000, // 10 km
+        },
       },
-      {
-        radius: 1000000000000000000000000000000000000000000000000000000000000000000000000000000000,
-        unit: 'm',
-        WITHDIST: true,
-        SORT: 'ASC',
-      }
-    );
+    }).limit(5);
 
-    let nearbyProviders = [];
-
-    if (results.length > 0) {
-      nearbyProviders = await Promise.all(
-        results.map(async ([providerId, distance]) => {
-          // Check if providerId is a valid ObjectId
-          if (!mongoose.Types.ObjectId.isValid(providerId)) {
-            return null; // skip invalid ids
-          }
-
-          const provider = await Provider.findById(providerId);
-          if (
-            provider &&
-            provider.availability === 'Available' &&
-            provider.role === serviceType
-          ) {
-            return { ...provider._doc, distance: parseFloat(distance) };
-          }
-          return null;
-        })
-      );
-
-      nearbyProviders = nearbyProviders.filter(p => p !== null);
-    }
-
-    let waitTime = null;
-    if (nearbyProviders.length === 0) {
-      const providerKeys = await redisClient.keys('provider:*:availability');
-      const availabilities = await Promise.all(
-        providerKeys.map(key => redisClient.get(key))
-      );
-      const availableCount = availabilities.filter(a => a === 'Available').length;
-      waitTime = availableCount > 0 ? 5 : 30;
-    }
+    const waitTime = nearbyProviders.length > 0 ? 5 : 30; // minutes
 
     return {
       status: 'success',
-      message: nearbyProviders.length > 0 ? 'Providers found' : 'No providers found nearby',
+      message: nearbyProviders.length > 0
+        ? `${nearbyProviders.length} provider(s) found nearby`
+        : 'No providers nearby, estimated wait: 30 mins',
       data: {
         providers: nearbyProviders,
         waitTime,
+        userLocation: {
+          type: 'Point',
+          coordinates: [userLocation.longitude, userLocation.latitude],
+        },
       },
     };
   } catch (error) {
@@ -179,5 +117,11 @@ const deleteUser = async (id) => {
   }
 };
 
-
-module.exports = { createUser, getUserById, getAllUsers, updateUser, deleteUser, createRequest };
+module.exports = {
+  createUser,
+  getUserById,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+  createRequest,
+};
