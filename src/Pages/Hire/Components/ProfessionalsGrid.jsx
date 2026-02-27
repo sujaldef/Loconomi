@@ -41,22 +41,22 @@ const ProfessionalsGrid = ({ filters }) => {
   return (
     <div className="md:w-3/4 px-6 py-12">
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
       >
         {filteredProfessionals.length === 0 ? (
-          <p className="text-gray-700 col-span-full  text-center">No professionals found matching your criteria.</p>
+          <p className="text-gray-700 col-span-full text-center">No professionals found matching your criteria.</p>
         ) : (
           filteredProfessionals.map((pro) => (
             <motion.div
               key={pro.id}
-              className="bg-white p-6 rounded-lg  shadow-md border border-blue-200 hover:shadow-lg hover:shadow-blue-300/50 transition-all duration-300"
+              className="bg-white p-6 rounded-lg shadow-md border border-blue-200 hover:shadow-lg hover:shadow-blue-300/50 transition-all duration-300"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
-              <div className="flex items-center   mb-4">
+              <div className="flex items-center mb-4">
                 <img
                   src={pro.image}
                   alt={pro.name}

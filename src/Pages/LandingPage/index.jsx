@@ -88,7 +88,34 @@ const HeroSection = () => {
     </section>
   );
 };
+/**
+ * 3. HOW IT WORKS (Timeline Style)
+ */
+const ProcessSection = () => {
+  const steps = [
+    { num: "01", title: "Initialize Search", text: "Select the service you need and your current location." },
+    { num: "02", title: "Node Selection", text: "Choose from a list of verified and available service providers." },
+    { num: "03", title: "Secure Chat", text: "Discuss details via our encrypted real-time messaging layer." },
+    { num: "04", title: "Execution", text: "Work is performed and payment is released upon verification." }
+  ];
 
+  return (
+    <section className="py-24 bg-white">
+      <div className="container mx-auto px-6">
+        <h2 className="text-center text-5xl font-black mb-20 tracking-tighter">EXECUTION FLOW</h2>
+        <div className="grid md:grid-cols-4 gap-8">
+          {steps.map((s, i) => (
+            <div key={i} className="relative">
+              <span className="text-8xl font-black text-slate-50 absolute -top-10 left-0 -z-10">{s.num}</span>
+              <h3 className="text-2xl font-bold mb-4 pt-4">{s.title}</h3>
+              <p className="text-slate-500">{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 /**
  * 2. CORE PROTOCOL (Features)
  * Explaining how the system works
@@ -129,57 +156,11 @@ const ProtocolSection = () => {
   );
 };
 
-/**
- * 3. HOW IT WORKS (Timeline Style)
- */
-const ProcessSection = () => {
-  const steps = [
-    { num: "01", title: "Initialize Search", text: "Select the service you need and your current location." },
-    { num: "02", title: "Node Selection", text: "Choose from a list of verified and available service providers." },
-    { num: "03", title: "Secure Chat", text: "Discuss details via our encrypted real-time messaging layer." },
-    { num: "04", title: "Execution", text: "Work is performed and payment is released upon verification." }
-  ];
 
-  return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-6">
-        <h2 className="text-center text-5xl font-black mb-20 tracking-tighter">EXECUTION FLOW</h2>
-        <div className="grid md:grid-cols-4 gap-8">
-          {steps.map((s, i) => (
-            <div key={i} className="relative">
-              <span className="text-8xl font-black text-slate-50 absolute -top-10 left-0 -z-10">{s.num}</span>
-              <h3 className="text-2xl font-bold mb-4 pt-4">{s.title}</h3>
-              <p className="text-slate-500">{s.text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
 
 /**
  * 4. CALL TO ACTION
  */
-
-const LandingPage = () => {
-  return (
-    <div className="font-sans text-slate-900 antialiased">
-     
-
-      <HeroSection />
-      <ProtocolSection />
-      <ProcessSection />
-      <CTASection />
-
-      <footer className="py-12 bg-white border-t border-slate-100 text-center">
-        <p className="text-slate-400 font-bold text-xs uppercase tracking-[0.3em]">
-          Loconomi Protocol &copy; 2026. Decentralized  Workforce Infrastructure.
-        </p>
-      </footer>
-    </div>
-  );
-};
 const CTASection = () => (
   <section className="py-24 bg-blue-600 text-white overflow-hidden relative">
     <div className="container mx-auto px-6 text-center relative z-10">
@@ -194,5 +175,24 @@ const CTASection = () => (
     </div>
   </section>
 );
+
+const LandingPage = () => {
+  return (
+    <div className="font-sans text-slate-900 antialiased">
+     
+
+      <HeroSection />
+      <ProtocolSection />
+      <ProcessSection />
+      <CTASection />
+
+      <footer className="py-12 bg-white border-t border-slate-100 text-center">
+        <p className="text-slate-400 font-bold text-xs uppercase tracking-[0.3em]">
+          Loconomi Protocol &copy; 2026. Decentralized Workforce Infrastructure.
+        </p>
+      </footer>
+    </div>
+  );
+};
 
 export default LandingPage;
