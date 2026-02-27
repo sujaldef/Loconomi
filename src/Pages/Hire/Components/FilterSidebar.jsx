@@ -12,6 +12,30 @@ const FilterSidebar = ({ filters, setFilters }) => {
   ];
   const ratings = [4.5, 4.7, 4.8, 4.9];
   const availabilities = ['Available', 'Busy'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   const sortOptions = ['distance', 'fastest'];
 
   const renderStars = (rating) => {
