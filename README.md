@@ -1,167 +1,235 @@
-# Loconomi
+# 🏘️ Loconomi - Local Services Marketplace
 
-## 📝 Description
+A full-stack MERN application connecting service providers with customers based on location.
 
-Loconomi is a cutting-edge decentralized platform designed to connect you with local service providers in real-time. Leveraging the power of WebSockets, Loconomi offers a dynamic and responsive experience, allowing you to discover nearby services as they become available. The platform boasts a seamless and intuitive user interface built with React, ensuring a smooth and engaging experience on any device. With its robust backend powered by Express.js and a scalable MongoDB database, Loconomi provides a reliable and efficient solution for finding the local services you need, when you need them. Experience the future of local service discovery with Loconomi!
+**Status:** ✅ Production Ready
 
+---
+
+## 📁 Project Structure
+
+```
+Loconomi/
+├── backend/                    # Node.js/Express backend
+│   ├── src/
+│   │   ├── config/            # Database & app configuration
+│   │   ├── middleware/        # Auth, validation, error handling
+│   │   ├── models/            # MongoDB schemas (User, Provider)
+│   │   ├── routes/            # API endpoints
+│   │   ├── services/          # Business logic
+│   │   └── utils/             # Helper functions
+│   ├── .env                   # Backend environment variables
+│   ├── server.js              # Express entry point
+│   └── package.json           # Backend dependencies
+│
+├── frontend/                  # React/Vite frontend
+│   ├── src/
+│   │   ├── components/        # Reusable React components
+│   │   ├── Pages/             # Page components
+│   │   ├── context/           # State management (Auth, Providers)
+│   │   ├── api/               # API client & endpoints
+│   │   ├── assets/            # Images, fonts
+│   │   ├── App.jsx            # Root component
+│   │   └── main.jsx           # Entry point
+│   ├── public/                # Static assets
+│   ├── .env                   # Frontend environment variables
+│   ├── index.html             # HTML template
+│   ├── vite.config.js         # Vite configuration
+│   ├── eslint.config.js       # ESLint configuration
+│   └── package.json           # Frontend dependencies
+│
+├── docs/                      # Documentation
+│   ├── API_DOCS.md
+│   ├── CODE_REVIEW.md
+│   ├── REFACTORING_COMPLETE.md
+│   └── SETUP.md
+│
+├── .gitignore                 # Git configuration
+└── README.md                  # This file
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** v16+
+- **MongoDB** (local or Atlas)
+- **npm** or **yarn**
+
+### Backend Setup
+
+```bash
+cd backend
+
+# Install dependencies
+npm install
+
+# Create .env file:
+# MONGO_URI=mongodb://localhost:27017/loconomi
+# JWT_SECRET=your_secret_key
+# PORT=3000
+# NODE_ENV=development
+# FRONTEND_URL=http://localhost:5174
+
+# Start development server
+npm run dev
+
+# Or production mode
+npm start
+```
+
+**Backend runs on:** `http://localhost:3000`
+
+### Frontend Setup
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Create .env file:
+# VITE_API_URL=http://localhost:3000
+# VITE_SOCKET_URL=http://localhost:3000
+
+# Start development server
+npm run dev
+
+# Or build for production
+npm run build
+```
+
+**Frontend runs on:** `http://localhost:5174`
+
+---
+
+## 🔑 Key Features
+
+### Backend
+
+- **Authentication**: JWT-based user & provider signup/login
+- **Authorization**: Role-based access control (RBAC)
+- **Validation**: Input validation with express-validator
+- **Security**: Helmet.js, CORS, rate limiting, bcrypt password hashing
+- **Real-time**: Socket.IO for live location tracking
+- **Database**: MongoDB with Mongoose ORM
+- **Geolocation**: Nearby provider discovery using geospatial queries
+- **API Endpoints**: Users, Providers, Authentication, Service Requests
+
+### Frontend
+
+- **State Management**: React Context API for auth & provider data
+- **Forms**: Signup, login, provider filtering
+- **UI**: Tailwind CSS + Framer Motion animations
+- **API Client**: Centralized HTTP client with automatic token injection
+- **Pages**: Landing, About, Services, Contact, Login, Hire, Join as Worker
+
+---
+
+## 📚 Available Scripts
+
+### Backend
+
+```bash
+npm run dev      # Start with nodemon (dev mode)
+npm start        # Start production server
+npm test         # Run tests
+```
+
+### Frontend
+
+```bash
+npm run dev      # Start Vite dev server
+npm run build    # Build for production
+npm run lint     # Run ESLint
+npm run preview  # Preview production build
+```
+
+---
+
+## 🔐 Environment Variables
+
+### Backend (.env)
+
+```
+MONGO_URI=mongodb://localhost:27017/loconomi
+JWT_SECRET=your_jwt_secret_key_here
+PORT=3000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:5174
+```
+
+### Frontend (.env)
+
+```
+VITE_API_URL=http://localhost:3000
+VITE_SOCKET_URL=http://localhost:3000
+```
+
+---
 
 ## 🛠️ Tech Stack
 
-- 🚀 Express.js
-- ⚛️ React
-- -Redux
+**Backend:**
 
+- Node.js + Express.js
+- MongoDB + Mongoose
+- Socket.IO
+- JWT (jsonwebtoken)
+- Bcrypt
+- Helmet, CORS, Morgan, Rate Limiter
 
-## 📦 Key Dependencies
+**Frontend:**
 
-```
-@tailwindcss/vite: ^4.1.8
-express: ^5.1.0
-framer-motion: ^12.15.0
-mongoose: ^8.15.1
-react: ^19.1.0
-react-countup: ^6.5.3
-react-dom: ^19.1.0
-react-icons: ^5.5.0
-react-router-dom: ^7.6.1
-redis: ^5.5.6
-socket.io: ^4.8.1
-socket.io-client: ^4.8.1
-tailwind-scrollbar: ^4.0.2
-tailwindcss: ^4.1.8
-```
+- React 19
+- Vite
+- Tailwind CSS
+- Framer Motion
+- React Router
+- Axios
 
-## 🚀 Run Commands
+---
 
-- **start**: `npm run start`
-- **dev**: `npm run dev`
+## 📖 Documentation
 
+See the `/docs` folder for detailed documentation:
 
-.
-├── backend/                  # Backend (Node.js + Express)
-│   ├── app.js                 # App entry point
-│   ├── db.js                  # Database connection config
-│   ├── main.js                # Server startup script
-│   ├── models/                # Mongoose models
-│   │   ├── Provider.js
-│   │   └── User.js
-│   ├── package.json           # Backend dependencies
-│   ├── routes/                # Express route handlers
-│   │   ├── providerRoutes.js
-│   │   └── userRoutes.js
-│   ├── services/              # Business logic
-│   │   ├── providerService.js
-│   │   └── userService.js
-│   └── socket.js              # Socket.IO setup
-│
-├── public/                    # Static assets
-│   ├── Deliver.jpg
-│   ├── Opportunities.jpg
-│   ├── carpenter.png
-│   ├── cleaner.png
-│   ├── electrician.png
-│   ├── gardener.png
-│   ├── guest1.png
-│   ├── guest2.jpg
-│   ├── guest3.jpg
-│   ├── handyman.png
-│   ├── hero-image.jpg
-│   ├── logo.png
-│   ├── map.jpg
-│   ├── mover.png
-│   ├── painter.png
-│   ├── plumber.png
-│   ├── profile.jpg
-│   └── vite.svg
-│
-├── src/                       # Frontend (React + Vite)
-│   ├── App.css
-│   ├── App.jsx
-│   ├── Pages/                 # Page-level components
-│   │   ├── AboutPage/
-│   │   │   ├── Components/
-│   │   │   │   ├── BookingSteps.jsx
-│   │   │   │   ├── CallToAction.jsx
-│   │   │   │   ├── HeroSection.jsx
-│   │   │   │   ├── TeamSection.jsx
-│   │   │   │   ├── ValuesSection.jsx
-│   │   │   │   └── animations.js
-│   │   │   └── index.jsx
-│   │   ├── ContactPage/
-│   │   │   ├── Components/
-│   │   │   │   ├── ContactInfo.jsx
-│   │   │   │   ├── FAQSection.jsx
-│   │   │   │   ├── HeroSection.jsx
-│   │   │   │   ├── MapSection.jsx
-│   │   │   │   ├── QuestionForm.jsx
-│   │   │   │   └── animations.js
-│   │   │   └── index.jsx
-│   │   ├── Hire/
-│   │   │   ├── Components/
-│   │   │   │   ├── FilterSidebar.jsx
-│   │   │   │   ├── ProfessionalsGrid.jsx
-│   │   │   │   └── animations.js
-│   │   │   └── index.jsx
-│   │   ├── JoinAsWorker/
-│   │   │   ├── Components/
-│   │   │   │   ├── HeroSection.jsx
-│   │   │   │   ├── HowItWorksSection.jsx
-│   │   │   │   ├── PerksSection.jsx
-│   │   │   │   └── WhyChooseSection.jsx
-│   │   │   └── index.jsx
-│   │   ├── LandingPage/
-│   │   │   ├── Components/
-│   │   │   │   ├── CallToActionSection.jsx
-│   │   │   │   ├── HeroSection.jsx
-│   │   │   │   ├── HowItWorksSection.jsx
-│   │   │   │   ├── PopularServicesSection.jsx
-│   │   │   │   └── WhyChooseSection.jsx
-│   │   │   └── index.jsx
-│   │   ├── Login/
-│   │   │   ├── Components/
-│   │   │   │   ├── BackgroundElements.jsx
-│   │   │   │   ├── FormFields.jsx
-│   │   │   │   ├── FormFooter.jsx
-│   │   │   │   ├── FormHeader.jsx
-│   │   │   │   └── animations.js
-│   │   │   └── index.jsx
-│   │   ├── RegisterWorkers/
-│   │   │   ├── Components/
-│   │   │   │   ├── FormFields.jsx
-│   │   │   │   ├── Header.jsx
-│   │   │   │   ├── ProfilePicture.jsx
-│   │   │   │   └── SubmitButton.jsx
-│   │   │   └── index.jsx
-│   │   └── ServicePage/
-│   │       ├── Components/
-│   │       │   ├── BackgroundParticles.jsx
-│   │       │   ├── CallToActionSection.jsx
-│   │       │   ├── HeroSection.jsx
-│   │       │   ├── ServicesSection.jsx
-│   │       │   ├── TestimonialsSection.jsx
-│   │       │   └── animations.js
-│   │       └── index.jsx
-│   ├── assets/
-│   │   └── react.svg
-│   ├── components/            # Shared UI components
-│   │   ├── Footer.jsx
-│   │   └── Navbar.jsx
-│   ├── index.css
-│   └── main.jsx
-│
-├── eslint.config.js           # ESLint configuration
-├── index.html                  # Main HTML template
-├── package.json                # Frontend dependencies
-└── vite.config.js              # Vite configuration
+- **API_DOCS.md** - Complete API endpoint reference
+- **CODE_REVIEW.md** - Code quality analysis
+- **REFACTORING_COMPLETE.md** - All refactoring changes
+- **SETUP.md** - Detailed setup guide
 
+---
 
+## 🧪 Testing the App
 
-## 🛠️ Development Setup
+1. **Signup as User**
+   - Navigate to `http://localhost:5174/login`
+   - Fill in details and submit
+   - Should store JWT token
 
-### Node.js/JavaScript Setup
-1. Install Node.js (v18+ recommended)
-2. Install dependencies: `npm install` or `yarn install`
-3. Start development server: (Check scripts in `package.json`, e.g., `npm run dev`)
+2. **Browse Providers**
+   - Login as user
+   - Go to "Hire" page
+   - View providers from database
 
+3. **Signup as Provider**
+   - Navigate to "Join as Worker"
+   - Register as provider
+   - Provider added to searchable list
 
+---
 
+## 👨‍💻 Development Notes
+
+- Backend and frontend run on separate ports (3000, 5174)
+- Both require their own `node_modules` and `package.json`
+- Update environment variables before running
+- MongoDB must be running for backend to work
+- Frontend automatically connects to backend via environment variables
+
+---
+
+**Last Updated:** March 13, 2026
