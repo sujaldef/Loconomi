@@ -16,7 +16,7 @@ const Footer = () => {
     hover: { scale: 1.2, rotate: 10, transition: { duration: 0.3 } },
   };
 
-  // Animation variants for newsletter input
+  // Animation variants for newsletter    input
   const inputVariants = {
     focus: { scale: 1.05, borderColor: '#93c5fd', transition: { duration: 0.3 } },
   };
