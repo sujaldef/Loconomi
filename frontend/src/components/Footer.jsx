@@ -11,7 +11,7 @@ const Footer = () => {
     hover: { scale: 1.1, color: '#93c5fd', transition: { duration: 0.3 } },
   };
 
-  // Animation variants social icons
+  // Animation variants social   icons
   const iconVariants = {
     hover: { scale: 1.2, rotate: 10, transition: { duration: 0.3 } },
   };
