@@ -2,9 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
-  const location = useLocation(); // Get the current URL path
+  const location = useLocation(); // Get    the current URL path
 
-  // Function to determine if a link is active
+  // Function to determin   e if a link is active
   const isActive = (path) => location.pathname === path;
 
   return (
